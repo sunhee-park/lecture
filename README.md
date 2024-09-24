@@ -79,7 +79,7 @@ src/main/java/com/kidari/lecture
 └── LectureApplication.java
 
 # API 설계
-## BackOffice API
+### BackOffice API
 - 강연 목록 조회: /api/backoffice/lectures (GET)
 전체 강연 목록을 조회
 - 강연 등록: /api/backoffice/lectures (POST)
@@ -87,7 +87,7 @@ src/main/java/com/kidari/lecture
 - 강연 신청자 목록 조회: /api/backoffice/lectures/{lecture_id}/users (GET)
 특정 강연에 대한 신청자 사번 목록 조회
 
-## Front API
+### Front API
 - 강연 목록 조회: /api/front/lectures (GET)
 신청 가능한 강연 목록 조회
 강연 시작 1주일 전부터 노출, 시작 1일 후에 노출 중지
@@ -102,6 +102,8 @@ src/main/java/com/kidari/lecture
 최근 3일간 가장 신청이 많은 강연 순으로 노출
 
 # 동시성, 데이터 일관성
+- 동시성 문제: 강연 신청 시 LectureStats에서 잔여 좌석 감소와 예약 정보 등록이 동시에 이루어져야 합니다. 이를 위해 트랜잭션 관리를 통해 좌석 감소와 예약 등록이 원자적으로 처리되도록 해야 합니다.
+- 데이터 일관성 유지: 강연 정보 수정 시, LectureStats와 Reservation 간의 데이터 일관성이 유지되어야 합니다. 이를 위해 강연이 취소되거나 수정될 때 관련된 좌석 정보와 예약 정보도 함께 처리해야 합니다.
 
 
 # 기타 고려 사항
