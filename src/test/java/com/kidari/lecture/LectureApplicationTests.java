@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.kidari.lecture.dto.LectureDTO;
 import com.kidari.lecture.service.LectureService;
-import com.kidari.lecture.repository.LectureRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +15,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -33,9 +31,6 @@ public class LectureApplicationTests {
 	@Autowired
 	private LectureService lectureService;
 
-	@Autowired
-	private LectureRepository lectureRepository;
-
 	@BeforeEach
 	public void setup() {
 		// 사전 데이터 설정
@@ -44,7 +39,7 @@ public class LectureApplicationTests {
 		lectureDTO.setLecturer("Kim Sunhee");
 		lectureDTO.setTitle("SpringBoot");
 		lectureDTO.setVenue("1 venue");
-		lectureDTO.setCapacity(200);
+		lectureDTO.setCapacity(100);
 		lectureDTO.setContent("Web Application Development with Spring Boot");
 
 		LocalDateTime now = LocalDateTime.now();
@@ -58,8 +53,8 @@ public class LectureApplicationTests {
 		lectureService.createLecture(lectureDTO);
 
 		// 강연 신청
-		lectureService.reserveLecture(1l, "abc12");
-		lectureService.reserveLecture(1l, "bbc02");
+		lectureService.reserveLecture(1L, "abc12");
+		lectureService.reserveLecture(1L, "bbc02");
 	}
 
 	// 1. 강연 목록 조회 테스트

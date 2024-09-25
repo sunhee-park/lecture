@@ -37,6 +37,8 @@ dependencies {
 	implementation 'org.hibernate.validator:hibernate-validator:7.0.1.Final'
 	// 필요 시 (로컬 메시지 파일 사용을 위한)
 	implementation 'org.glassfish:jakarta.el:4.0.2'
+	// swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
 }
 
 tasks.named('test') {
