@@ -124,6 +124,7 @@ Front API
 5. 실시간 인기 강연 테스트
 	@Test
 	public void testGetPopularLectures()
+
 com.kidari.lecture.ReservationTest.java
 동시성 테스트(h2 db에서 잘 작동하지 않음..)
 1. 100 명의 사용자가 강연 신청
