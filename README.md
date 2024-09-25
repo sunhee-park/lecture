@@ -102,34 +102,26 @@ src/main/java/com/kidari/lecture
 최근 3일간 가장 신청이 많은 강연 순으로 노출
 
 # 동시성, 데이터 일관성
-- 동시성 문제: 강연 신청 시 LectureStats에서 잔여 좌석 감소와 예약 정보 등록이 동시에 이루어져야 합니다. 이를 위해 트랜잭션 관리를 통해 좌석 감소와 예약 등록이 원자적으로 처리되도록 해야 합니다.
-- 데이터 일관성 유지: 강연 정보 수정 시, LectureStats와 Reservation 간의 데이터 일관성이 유지되어야 합니다. 이를 위해 강연이 취소되거나 수정될 때 관련된 좌석 정보와 예약 정보도 함께 처리해야 합니다.
-
+- 트랜잭션 처리 : 강연 신청 시 LectureStats에서 잔여 좌석 감소와 예약 정보 등록이 동시에 이루어져야 합니다. 이를 위해 트랜잭션 관리를 통해 좌석 감소와 예약 등록이 원자적으로 처리되도록 해야 합니다. 강연이 취소되거나 수정될 때 관련된 좌석 정보와 예약 정보도 함께 처리해야 합니다.
+- 비관적 락: 강연 신청 시 LectureStats 에서 잔여 좌석 조회 후 잔여 좌석 감소와 예약 좌석 증가를 동시에 여러 쓰레드에서 처리함으로 동시성 문제가 발생합니다. 잔여 좌석을 동시에 두 쓰레드가 조회 후 데이터를 중복 업데이트하는 현상이 발생할 수 있습니다. 이를 해결하기 NamedLock 방법으로 처리하려 하였으나 H2 Database에서 이를 지원하지 않아 비관적 락 방법을 사용하였습니다. 비관적 락은 DB data row에 락을 걸어 순차적으로 처리하는 방식입니다. 이 방법은 성능 부하가 많고 데이터에 직접 락을 걸기 때문에 수강 신청 이외의 서비스에서 데이터 조회하는 것에도 불필요하게 락이 걸립니다. NamedLock 방법은 데이터에 직접 락을 거는 방식이 아니라 리소스 이름으로 락을 생성하는 방식입니다. 수강 신청 시에만 락을 걸어 순차적으로 처리할 수 있습니다. 최근에는 분산 환경에서 동시성 문제를 해결하기 위해 Redis나 kafka와 같은 MQ 서버를 이용한 방식을 많이 사용하고 있습니다. 
 
 # 기타 고려 사항
-
-- 실시간 인기 강연
-
-
-- 잔여 좌석, 예약된 좌석 칼럼
-
-
 
 # 테스트
 
 ### 단위테스트 (Junit)
 com.kidari.lecture.LectureApplicationTests.java
+BackOffice API
 1. 강연 목록 조회 테스트
 	@Test
 	public void testGetAllLectures()
 2. 강연 등록 테스트
 	@Test
 	public void testCreateLecture() 
-강연 등록 API를 호출하여 아래와 같은 JSON 데이터를 보낼 수 있습니다.
 3. 강연 신청자 목록 조회 테스트
 	@Test
 	public void testGetLectureUsers()
-
+Front API
 1. 신청 가능한 강연 목록 조회 테스트
 	@Test
 	public void testGetAvailableLectures()
@@ -146,7 +138,7 @@ com.kidari.lecture.LectureApplicationTests.java
 	@Test
 	public void testGetPopularLectures()
 
-### 테스트(url 직접 호출)
+### Swagger(http://localhost:8080/swagger-ui/index.html)
 POST /api/backoffice/lectures 요청
 
 {
