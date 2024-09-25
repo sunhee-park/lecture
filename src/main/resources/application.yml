@@ -4,6 +4,8 @@ spring:
     driverClassName: org.h2.Driver
     username: sa
     password:
+    hikari:
+      maximum-pool-size: 40  # 최대 커넥션 수 설정
   h2:
     console:
       enabled: true
@@ -16,6 +18,8 @@ spring:
 logging:
   level:
     com.kidari.lecture: DEBUG
+    org.hibernate.SQL: DEBUG  # Hibernate SQL 로그 레벨 설정
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # 파라미터 바인딩 로그도 출력
   file:
     name: logs/app.log
 server:

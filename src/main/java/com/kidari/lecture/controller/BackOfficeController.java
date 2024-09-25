@@ -1,6 +1,7 @@
 package com.kidari.lecture.controller;
 
 import com.kidari.lecture.dto.LectureDTO;
+import com.kidari.lecture.dto.LectureDetailDTO;
 import com.kidari.lecture.service.LectureService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,10 @@ public class BackOfficeController {
 
     // 1. 강연 목록 조회
     @GetMapping
-    public ResponseEntity<Page<LectureDTO>> getAllLectures(
+    public ResponseEntity<Page<LectureDetailDTO>> getAllLectures(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        Page<LectureDTO> lectures = lectureService.getAllLectures(page, size);
+        Page<LectureDetailDTO> lectures = lectureService.getAllLectures(page, size);
         return ResponseEntity.ok(lectures);
     }
 
