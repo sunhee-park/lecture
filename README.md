@@ -4,7 +4,6 @@
 - Java 17 
 - Spring Boot 3.3.3
 - Spring Data JPA
-- QueryDSL
 - H2 Database
 - Gradle
 
@@ -125,35 +124,10 @@ Front API
 5. 실시간 인기 강연 테스트
 	@Test
 	public void testGetPopularLectures()
-
+com.kidari.lecture.ReservationTest.java
+동시성 테스트(h2 db에서 잘 작동하지 않음..)
+1. 100 명의 사용자가 강연 신청
+    @Test
+    public void reserve_100_user() throws InterruptedException
+   
 ### Swagger(http://localhost:8080/swagger-ui/index.html)
-POST /api/backoffice/lectures 요청
-
-{
-    "title": "Spring Boot 강연",
-    "lecturer": "김개발",
-    "venue": "서울 강남구 강연장",
-    "capacity": 100,
-    "startTime": "2024-10-01T10:00:00",
-    "endTime": "2024-10-01T12:00:00",
-    "content": "Spring Boot를 활용한 백엔드 개발에 대한 강연입니다."
-}
-
-응답
-{
-    "message": "강연이 성공적으로 등록되었습니다."
-}
-
-
-GET /api/backoffice/lectures/{lecture_id}/users 요청
-
-GET /api/backoffice/lectures/1/users
-
-응답
-
-[
-    "12345",
-    "23456",
-    "34567"
-]
-
